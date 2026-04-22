@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% block title "Mise à jour client" %}
+{% block body %}
+    <button class="btn btn-outline-dark" onclick="history.back()">Retour à la page précédente</button>
+    <div class="container mt-5">
+    {{ form(form) }}
+    </div>
+{% endblock %}

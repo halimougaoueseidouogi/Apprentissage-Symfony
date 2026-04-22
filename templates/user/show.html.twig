@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block title "Nos Clients" %}
+{% block body %}
+<button class="btn btn-outline-dark" onclick="history.back()">Retour à la page précédente</button>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nom et Prénom(s)</th>
+            <th scope="col">Date d'ajout</th>
+            <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <th scope="row">{{ user.id }}</th>
+            <td>{{ user.name }}</td>
+            <td>{{ user.createdAt | date("m/d/Y") }}</td>
+            <td>
+                <ul class="d-flex flex-row mb-3 gap-2">
+                    <a href="{{ url('update_user',{id: user.id})}}">Modifier</a>
+
+                    <a href="{{ url('show_user',{id: user.id})}}">Supprimer</a>
+                </ul>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
