@@ -2,7 +2,7 @@
 framework:
     secret: '%env(APP_SECRET)%'
     annotations: false
-    http_method_override: false
+    http_method_override: true
     handle_all_throwables: true
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
@@ -12,7 +12,7 @@ framework:
         cookie_secure: auto
         cookie_samesite: lax
 
-    #esi: true
+    #esi: true  
     #fragments: true
     php_errors:
         log: true

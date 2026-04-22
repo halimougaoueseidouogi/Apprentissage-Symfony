@@ -1,34 +1,53 @@
 {% extends 'base.html.twig' %}
 {% block title "Nos Clients" %}
 {% block body %}
-<button class="btn btn-outline-dark" onclick="history.back()">Retour à la page précédente</button>
-<h3 class="mt-3">Clients récents</h3>
+
+<div class="my-5">
+    <div class="d-flex">   
+        <div class="d-right">
+            <a href="{{ url('create_user') }}" class="btn btn-primary">Add Nouveau Client</a>
+        </div>
+    </div>
     <table class="table">
         <thead>
             <tr>
             <th scope="col">#</th>
-            <th scope="col">Nom et Prénom(s)</th>
-            <th scope="col">Date d'ajout</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom(s)</th>
+            <th scope="col">Email</th>
+            <th scope="col">Téléphone</th>
+            <th scope="col">Adresse</th>
+            <th scope="col">Date Naissance</th>
+            <th scope="col">N Compte</th>
+            <th scope="col">Date d'ajoute</th>
             <th scope="col">Action</th>
+
             </tr>
         </thead>
         <tbody>
-        {% for user in users %}
-            <tr>
-            <th scope="row">{{ user.id }}</th>
-            <td>{{ user.name }}</td>
-            <td>{{ user.createdAt | date("m/d/Y") }}</td>
-            <td>
-                <ul class="d-flex flex-row mb-3 gap-2">
-                    <a href="{{ url('show_user',{id: user.id})}}">Voir</a>
+            {% for user in users %}
+                <tr>
+                    <th scope="row">1</th>
+                    <td>{{ user.nom }}</td>
+                    <td>{{ user.prenom }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.telephone }}</td>
+                    <td>{{ user.adresse }}</td>
+                    <td>{{ user.dateNaissance | date("m/d/Y") }}</td>
+                    <td>3</td>
+                    <td>{{ user.createdAt | date("m/d/Y") }}</td>
+                    <td>
+                        <ul class="d-flex flex-row mb-3 gap-2">
+                            <a class="btn btn-primary" href="{{ url('show_user',{id: user.id})}}">Voir</a>
 
-                    <a href="{{ url('update_user',{id: user.id})}}">Modifier</a>
+                            <a class="btn btn-primary" href="{{ url('update_user',{id: user.id})}}">Modifier</a>
 
-                    <a href="{{ url('show_user',{id: user.id})}}">Supprimer</a>
-                </ul>
-            </td>
-            </tr>
-        {% endfor %}
+                            <a class="btn btn-danger" href="{{ url('show_user',{id: user.id})}}">Supprimer</a>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock %}

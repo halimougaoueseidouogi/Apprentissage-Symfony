@@ -2,28 +2,76 @@
 {% block title "Nos Clients" %}
 {% block body %}
 <button class="btn btn-outline-dark" onclick="history.back()">Retour à la page précédente</button>
-    <table class="table">
+<!-- Font Awesome for icons -->
+    <div class="portfolio-card mt-2">
+        {# <img src="https://via.placeholder.com/340x200" class="card-img-top" alt="Profile Picture"> #}
+        <h3 class="text-center border-bottom border-dark"> Informations Client</h3>
+        <div class="card-body text-center  p-5 ">
+            <h5 class="card-title">{{ user.prenom }} {{ user.nom | upper}}</h5>
+            <i class="card-text text-muted">Membre depuis : {{ user.createdAt | date("m/d/Y") }}</i>
+            {# <p class="card-text">Date de Naissance {{ user.dateNaissance | date("m/d/Y") }} <br> Réside à <span class="font-weight-bold">{{ user.adresse }}</span></p> #}
+            {# <div class="d-flex justify-content-center mb-3">
+                <a href="#" class="btn btn-outline-primary me-2"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="btn btn-outline-primary me-2"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="btn btn-outline-primary"><i class="fab fa-github"></i></a>
+            </div> #}
+            <ul class="list-group list-group-flush mt-3">
+                <li class="list-group-item"><i class="fas fa-map-marker-alt me-2"></i>Date de Naissance {{ user.dateNaissance | date("m/d/Y") }}</li>
+                <li class="list-group-item"><i class="fas fa-envelope me-2"></i>Email : {{ user.email }}</li>
+                <li class="list-group-item"><i class="fas fa-phone me-2"></i>Tel : {{ user.telephone }}</li>
+                <li class="list-group-item"><i class="fas fa-map-marker-alt me-2"></i>Adresse : {{ user.adresse }}</li>
+            </ul>
+            <ul class="mt-3 gap-2">
+                <a class="btn btn-success" href="">Nouveau Compte</a>
+
+                <a class="btn btn-primary" href="{{ url('update_user',{id: user.id})}}">Modifier</a>
+
+                <a class="btn btn-danger" href="{{ url('show_user',{id: user.id})}}">Supprimer</a>
+            </ul>
+        </div>
+            <table class="table">
         <thead>
             <tr>
             <th scope="col">#</th>
-            <th scope="col">Nom et Prénom(s)</th>
-            <th scope="col">Date d'ajout</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom(s)</th>
+            <th scope="col">Email</th>
+            <th scope="col">Téléphone</th>
+            <th scope="col">Adresse</th>
+            <th scope="col">Date Naissance</th>
+            <th scope="col">N Compte</th>
+            <th scope="col">Date d'ajoute</th>
             <th scope="col">Action</th>
+
             </tr>
         </thead>
         <tbody>
-            <tr>
-            <th scope="row">{{ user.id }}</th>
-            <td>{{ user.name }}</td>
-            <td>{{ user.createdAt | date("m/d/Y") }}</td>
-            <td>
-                <ul class="d-flex flex-row mb-3 gap-2">
-                    <a href="{{ url('update_user',{id: user.id})}}">Modifier</a>
+            {% for user in client %}
+                <tr>
+                    <th scope="row">1</th>
+                    <td>{{ user.nom }}</td>
+                    <td>{{ user.prenom }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.telephone }}</td>
+                    <td>{{ user.adresse }}</td>
+                    <td>{{ user.dateNaissance | date("m/d/Y") }}</td>
+                    <td>3</td>
+                    <td>{{ user.createdAt | date("m/d/Y") }}</td>
+                    <td>
+                        <ul class="d-flex flex-row mb-3 gap-2">
+                            <a class="btn btn-primary" href="{{ url('show_user',{id: user.id})}}">Voir</a>
 
-                    <a href="{{ url('show_user',{id: user.id})}}">Supprimer</a>
-                </ul>
-            </td>
-            </tr>
+                            <a class="btn btn-primary" href="{{ url('update_user',{id: user.id})}}">Modifier</a>
+
+                            <a class="btn btn-danger" href="{{ url('show_user',{id: user.id})}}">Supprimer</a>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
+    </div>
+
+    
+
 {% endblock %}

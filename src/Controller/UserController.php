@@ -39,6 +39,12 @@ final class UserController extends AbstractController
     public function show(int $id, UserRepository $userRepository): Response
     {
         $user =  $userRepository->find($id);
+        // $comptes = 
+         if(!$user){
+            $this->addFlash('danger', 'Le client n\'existe pas');
+            return $this->redirectToRoute('all_user');
+
+        }
         return $this->render('user/show.html.twig', [
                 'user' => $user
             ]);
@@ -50,12 +56,12 @@ final class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
-        {
-            $plainPassword = $form->get('password')->getData();
-
-            if ($plainPassword) {
-                $plainPassword = $passwordHasher->hashPassword($user, $plainPassword);
-            }
+        {            
+            $hashedPassword = $passwordHasher->hashPassword($user, 'Azerty001@');
+            $user->setPassword($hashedPassword);
+            
+            $user->setCreatedAtValue();
+            $user->setUpdatedAtValue();
             $em->persist($user);
             $em->flush();
             $this->addFlash('success', 'Utilisteur créer');
@@ -66,29 +72,17 @@ final class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    #[Route('/{id<\d+>}/edit', name: 'update_user')]
 
-    public function edit(
-    Request $request, 
-    User $user, 
-    EntityManagerInterface $em, 
-    UserPasswordHasherInterface $passwordHasher
-    ):  Response
+    #[Route('/{id<\d+>}/edit', name: 'update_user')]
+    public function edit( Request $request, User $user, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher):  Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
-            
-            $plainPassword = $form->get('password')->getData();
-
-            if ($plainPassword) {
-                $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
-                $user->setPassword($hashedPassword);
-            }
-
+            $user->setUpdatedAtValue();
             $em->flush();
-            $this->addFlash('success', 'Mise à jour à effectuer');
+            $this->addFlash('success', 'Mise à jour effectuer');
             return $this->redirectToRoute('all_user');
         }
         // $user->setName();
@@ -107,13 +101,19 @@ final class UserController extends AbstractController
         //]);
     }
 
-    #[Route('/{id<\d+>?1}/delete', name: 'delete_user')]
+    #[Route('/{id<\d+>?1}/delete', name: 'delete_user', methods:['DELETE']) ]
     public function delete(int $id, UserRepository $userRepository, EntityManagerInterface $em): Response
     {
         $user = $userRepository->find($id);
+        if(!$user){
+            $this->addFlash('danger', 'Le client n\'existe pas');
+            return $this->redirectToRoute('all_user');
+
+        }
         $em->remove($user);
         $em->flush();
-        return new Response('Suppression de '.$id);
+        $this->addFlash('danger', 'Suppression effectuer');
+        return $this->redirectToRoute('all_user');
 
         //return $this->json([
         //     'message' => 'Welcome to your new controller!',

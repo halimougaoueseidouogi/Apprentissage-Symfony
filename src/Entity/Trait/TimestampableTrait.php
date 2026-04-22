@@ -10,7 +10,7 @@ trait TimestampableTrait
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $updateAt = null;
+    private ?\DateTimeInterface $updatedAt = null;
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -19,7 +19,7 @@ trait TimestampableTrait
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updateAt;
+        return $this->updatedAt;
     }
 
     #[ORM\PrePersist]
@@ -31,6 +31,6 @@ trait TimestampableTrait
     #[ORM\PreUpdate]
     public function setUpdatedAtValue(): void
     {
-        $this->updateAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 }
